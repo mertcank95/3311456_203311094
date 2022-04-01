@@ -1,5 +1,5 @@
 class GameAboutSource {
-  static const List<String> GAME_NAME = [
+  static const List<String> gameName = [
     "GodOfWar",
     "Witcher3",
     "Cyberpunk",
@@ -11,7 +11,7 @@ class GameAboutSource {
     "MountAndBlade"
   ];
 
-  static const List<double> GAME_MONEY = [
+  static const List<double> gameMoney = [
     233.75,
     17.45,
     145.70,
@@ -23,7 +23,7 @@ class GameAboutSource {
     110.22
   ];
 
-  static const List<String> GAME_DATE = [
+  static const List<String> gameDate = [
     "14 ocak 2022",
     "18 mayıs 2015",
     "10 aralık 2020",
@@ -35,21 +35,21 @@ class GameAboutSource {
     "30 mart 2020"
   ];
 
-  static const List<String> GAME_CONTENT = [
+  static const List<String> gameContent = [
     "Kuzey diyarına adım atın"
-            "Olimpos Tanrılarından aldığı intikamın üzerinden yıllar geçen Kratos, artık İskandinav Tanrılarının ve canavarlarının" +
-        "diyarında sıradan bir insan olarak yaşıyor. Bu sert ve acımasız dünyada hayatta kalabilmek için savaşmak ve oğluna da aynısını" +
-        "öğretmek zorunda." +
-        "İkinci bir şans yakala" +
-        "Kratos yeniden bir baba. Onun saygısını kazanmaya kararlı oğlu Atreus'un akıl hocası ve koruyucusu olarak, bir yandan" +
-        "oğluyla son derece tehlikeli bir dünyada ilerlerken diğer yandan da adeta onun simgesi olan öfkesini bastırmak ve kontrol " +
-        "etmek zorunda." +
-        "Korkutucu yaratıkların olduğu daha karanlık ve dizginsiz bir dünyaya yolculuk et" +
-        "Mermer taş ve sütunlarla kaplı gösterişli Olimpos'tan çıkıp Viking öncesi İskandinav kültürünün amansız orman, " +
-        "dağ ve mağaralarına gelen Kratos, kendi yaratık, canavar ve tanrı panteonu olan yeni ve bambaşka bir diyarla karşı karşıya." +
-        "Göğüs göğüse kanlı çatışmalara gir Oyuncuyu her zamankinden daha çok aksiyonun içine sokan omuz üstü kamera açısı " +
-        "sayesinde, God of War™'daki savaşlar Kratos'un yüzleşeceği İskandinav yaratıkları panteonunu yansıtıyor:" +
-        "Görkemli, vahşi ve zorlayıcı. Yeni bir ana silah ve yeni kabiliyetler bir yandan" +
+        "Olimpos Tanrılarından aldığı intikamın üzerinden yıllar geçen Kratos, artık İskandinav Tanrılarının ve canavarlarının"
+        "diyarında sıradan bir insan olarak yaşıyor. Bu sert ve acımasız dünyada hayatta kalabilmek için savaşmak ve oğluna da aynısını"
+        "öğretmek zorunda."
+        "İkinci bir şans yakala"
+        "Kratos yeniden bir baba. Onun saygısını kazanmaya kararlı oğlu Atreus'un akıl hocası ve koruyucusu olarak, bir yandan"
+        "oğluyla son derece tehlikeli bir dünyada ilerlerken diğer yandan da adeta onun simgesi olan öfkesini bastırmak ve kontrol "
+        "etmek zorunda."
+        "Korkutucu yaratıkların olduğu daha karanlık ve dizginsiz bir dünyaya yolculuk et"
+        "Mermer taş ve sütunlarla kaplı gösterişli Olimpos'tan çıkıp Viking öncesi İskandinav kültürünün amansız orman, "
+        "dağ ve mağaralarına gelen Kratos, kendi yaratık, canavar ve tanrı panteonu olan yeni ve bambaşka bir diyarla karşı karşıya."
+        "Göğüs göğüse kanlı çatışmalara gir Oyuncuyu her zamankinden daha çok aksiyonun içine sokan omuz üstü kamera açısı "
+        "sayesinde, God of War™'daki savaşlar Kratos'un yüzleşeceği İskandinav yaratıkları panteonunu yansıtıyor:"
+        "Görkemli, vahşi ve zorlayıcı. Yeni bir ana silah ve yeni kabiliyetler bir yandan"
         "God of War serisini simgeleyen ruhu korurken bir yandan da türe yeni bir boyut katan şiddetli mücadeleler sunuyor.",
     "The Witcher 3: Wild Hunt, CD Projekt RED tarafından geliştirilen, Warner Bros. Interactive Entertainment tarafından"
         "Kuzey Amerika'da, Namco Bandai Games tarafından ise Avrupa'da yayımcılığı yapılan üçüncü şahıs nişancı türü rol yapma oyunudur."

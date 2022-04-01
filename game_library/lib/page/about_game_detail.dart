@@ -4,7 +4,7 @@ import 'package:game_library/model/game_about_model.dart';
 
 class GameAboutDetail extends StatefulWidget {
   final GameAboutModel selectedGameAbout;
-  GameAboutDetail({required this.selectedGameAbout, Key? key})
+  const GameAboutDetail({required this.selectedGameAbout, Key? key})
       : super(key: key);
 
   @override

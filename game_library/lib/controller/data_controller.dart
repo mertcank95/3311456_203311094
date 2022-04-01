@@ -41,7 +41,7 @@ class DataControl {
   }
 
   static gameShopListRemove() {
-    if (shopGame.length > 0) shopGame.clear();
+    if (shopGame.isNotEmpty) shopGame.clear();
   }
 
   static double gamesMoney() {
@@ -52,10 +52,10 @@ class DataControl {
     return money;
   }
 
-  static List<int> count = List.filled(GameAboutSource.GAME_NAME.length, 0);
+  static List<int> count = List.filled(GameAboutSource.gameName.length, 0);
 
   static resetList() {
-    for (var item in DataControl.count) {
+    for (int item in DataControl.count) {
       item = 0;
     }
   }

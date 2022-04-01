@@ -34,14 +34,14 @@ class _ShoppingState extends State<Shopping> {
           crossAxisCount: 2,
           mainAxisSpacing: 10,
         ),
-        itemCount: GameAboutSource.GAME_NAME.length,
+        itemCount: GameAboutSource.gameName.length,
         itemBuilder: (BuildContext context, int index) {
           return cardMethod(index);
         },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          if (DataControl.shopGame.length > 0) {
+          if (DataControl.shopGame.isNotEmpty) {
             Navigator.pop(context);
             Navigator.pushNamed(context, "/shoppingComplate");
           } else {
@@ -50,79 +50,77 @@ class _ShoppingState extends State<Shopping> {
                     Text("Alışverişi tamamlamak için satın alma yapınız")));
           }
         },
-        child: Icon(Icons.card_giftcard),
+        child: const Icon(Icons.card_giftcard),
       ),
     );
   }
 
   Widget cardMethod(int index) {
-    return Container(
-      child: Card(
-        shadowColor: Colors.blue,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-        child: Column(
-          children: [
-            Image.asset(
-              "assets/images/${GameAboutSource.GAME_NAME[index]}_icon.png",
-              width: 75,
-              height: 75,
+    return Card(
+      shadowColor: Colors.blue,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+      child: Column(
+        children: [
+          Image.asset(
+            "assets/images/${GameAboutSource.gameName[index]}_icon.png",
+            width: 75,
+            height: 75,
+          ),
+          /* ListTile(
+            title: Text(
+              GameAboutSource.GAME_NAME[index],
+              style: TextStyle(fontSize: 20),
             ),
-            /* ListTile(
-              title: Text(
-                GameAboutSource.GAME_NAME[index],
+            subtitle: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                GameAboutSource.GAME_MONEY[index].toString() + " tl",
                 style: TextStyle(fontSize: 20),
               ),
-              subtitle: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  GameAboutSource.GAME_MONEY[index].toString() + " tl",
-                  style: TextStyle(fontSize: 20),
-                ),
-              ),
-            ),*/
-
-            Text(
-              GameAboutSource.GAME_NAME[index],
-              style: TextStyle(
-                fontSize: 20,
-              ),
             ),
-            Text(GameAboutSource.GAME_MONEY[index].toString() + " tl",
-                style: TextStyle(fontSize: 20, color: Colors.black38)),
-            ButtonBar(
-              alignment: MainAxisAlignment.end,
-              children: [
-                // Text(DataControl.count[index].toString()),
-                IconButton(
-                    onPressed: () {
-                      setState(() {});
-                      //DataControl.count[index]++;
+          ),*/
 
-                      GameShopModel newProduct = GameShopModel(
-                          GameAboutSource.GAME_NAME[index],
-                          GameAboutSource.GAME_MONEY[index]);
-                      DataControl.addGameShopList(newProduct);
-                      totalMoney = DataControl.gamesMoney();
-                    },
-                    icon: Icon(Icons.add_box)),
-                IconButton(
-                    onPressed: () {
-                      setState(() {});
-                      // if (DataControl.count[index] != 0)
-                      //DataControl.count[index]--;
-                      /* else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text("Ürün Zaten yok")));
-                      }*/
-                      DataControl.removeGameShopList(
-                          GameAboutSource.GAME_NAME[index]);
-                      totalMoney = DataControl.gamesMoney();
-                    },
-                    icon: Icon(Icons.delete)),
-              ],
-            )
-          ],
-        ),
+          Text(
+            GameAboutSource.gameName[index],
+            style: const TextStyle(
+              fontSize: 20,
+            ),
+          ),
+          Text(GameAboutSource.gameMoney[index].toString() + " tl",
+              style: const TextStyle(fontSize: 20, color: Colors.black38)),
+          ButtonBar(
+            alignment: MainAxisAlignment.end,
+            children: [
+              // Text(DataControl.count[index].toString()),
+              IconButton(
+                  onPressed: () {
+                    setState(() {});
+                    //DataControl.count[index]++;
+
+                    GameShopModel newProduct = GameShopModel(
+                        GameAboutSource.gameName[index],
+                        GameAboutSource.gameMoney[index]);
+                    DataControl.addGameShopList(newProduct);
+                    totalMoney = DataControl.gamesMoney();
+                  },
+                  icon: const Icon(Icons.add_box)),
+              IconButton(
+                  onPressed: () {
+                    setState(() {});
+                    // if (DataControl.count[index] != 0)
+                    //DataControl.count[index]--;
+                    /* else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("Ürün Zaten yok")));
+                    }*/
+                    DataControl.removeGameShopList(
+                        GameAboutSource.gameName[index]);
+                    totalMoney = DataControl.gamesMoney();
+                  },
+                  icon: const Icon(Icons.delete)),
+            ],
+          )
+        ],
       ),
     );
   }
@@ -140,17 +138,17 @@ class PopupWidget extends StatefulWidget {
 class _PopupWidgetState extends State<PopupWidget> {
   @override
   Widget build(BuildContext context) {
-    return DataControl.shopGame.length != 0
+    return DataControl.shopGame.isNotEmpty
         ? PopupMenuButton(
             color: Colors.blue.shade600,
-            icon: Icon(Icons.add_shopping_cart),
-            shape: RoundedRectangleBorder(
+            icon: const Icon(Icons.add_shopping_cart),
+            shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(15.0))),
             itemBuilder: (context) {
               return DataControl.shopGame
                   .map((e) => PopupMenuItem(
                       textStyle:
-                          TextStyle(decoration: TextDecoration.underline),
+                          const TextStyle(decoration: TextDecoration.underline),
                       child: Column(
                         children: [
                           Row(
@@ -163,6 +161,6 @@ class _PopupWidgetState extends State<PopupWidget> {
                       )))
                   .toList();
             })
-        : Text(" Ürün yok  ");
+        : const Text(" Ürün yok  ");
   }
 }

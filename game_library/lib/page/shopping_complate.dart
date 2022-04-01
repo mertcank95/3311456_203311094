@@ -40,13 +40,14 @@ class _ShoppingComplateState extends State<ShoppingComplate> {
                             DataControl.shopGame[index].name +
                                 "  " +
                                 DataControl.shopGame[index].money.toString(),
-                            style: TextStyle(fontSize: 20),
+                            style: const TextStyle(fontSize: 20),
                             textAlign: TextAlign.center,
                           ),
                         ),
                       ),
                       Expanded(
-                        child: Container(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
                           child: ElevatedButton(
                               style: ElevatedButton.styleFrom(),
                               onPressed: () {
@@ -54,7 +55,7 @@ class _ShoppingComplateState extends State<ShoppingComplate> {
                                 DataControl.removeGameShopList(
                                     DataControl.shopGame[index].name);
                               },
-                              child: Icon(
+                              child: const Icon(
                                 Icons.delete_forever,
                                 size: 25,
                               )),
@@ -65,13 +66,9 @@ class _ShoppingComplateState extends State<ShoppingComplate> {
                 },
               ),
             ),
-            Container(
-              child: Text(
-                "Toplam : " +
-                    DataControl.gamesMoney().toStringAsFixed(2) +
-                    " TL",
-                style: ConstantsStyles.newsTitle,
-              ),
+            Text(
+              "Toplam : " + DataControl.gamesMoney().toStringAsFixed(2) + " TL",
+              style: ConstantsStyles.newsTitle,
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -86,20 +83,20 @@ class _ShoppingComplateState extends State<ShoppingComplate> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           "Kredi Kartı bilgileri",
                           style: TextStyle(fontSize: 25),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         textFormFieldMethod(
                             TextInputType.number,
-                            Icon(Icons.ballot_sharp),
+                            const Icon(Icons.ballot_sharp),
                             "**** / **** / **** / ****",
                             prefixText: "TR ",
                             labelText: "Kredi kartı numaranız"),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Row(
@@ -107,22 +104,26 @@ class _ShoppingComplateState extends State<ShoppingComplate> {
                           children: [
                             Expanded(
                               child: Container(
-                                  child: textFormFieldMethod(TextInputType.text,
-                                      Icon(Icons.account_circle), "Adınız",
+                                  child: textFormFieldMethod(
+                                      TextInputType.text,
+                                      const Icon(Icons.account_circle),
+                                      "Adınız",
                                       labelText: "Adınız")),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             Expanded(
                               child: Container(
-                                  child: textFormFieldMethod(TextInputType.text,
-                                      Icon(Icons.account_circle), "Soy adınız",
+                                  child: textFormFieldMethod(
+                                      TextInputType.text,
+                                      const Icon(Icons.account_circle),
+                                      "Soy adınız",
                                       labelText: "Soy adınız")),
                             )
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Row(
@@ -132,18 +133,18 @@ class _ShoppingComplateState extends State<ShoppingComplate> {
                               child: Container(
                                   child: textFormFieldMethod(
                                       TextInputType.number,
-                                      Icon(Icons.calendar_today_sharp),
+                                      const Icon(Icons.calendar_today_sharp),
                                       "--/--",
                                       labelText: "Tarih")),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             Expanded(
                               child: Container(
                                   child: textFormFieldMethod(
                                       TextInputType.number,
-                                      Icon(Icons.bento),
+                                      const Icon(Icons.bento),
                                       "---",
                                       labelText: "Güvenlik")),
                             )
@@ -161,8 +162,8 @@ class _ShoppingComplateState extends State<ShoppingComplate> {
                                             Text("Alışverişiniz tamamlandı")));
                               }
                             },
-                            icon: Icon(Icons.card_giftcard),
-                            label: Text("ödemeyi tamamla"))
+                            icon: const Icon(Icons.card_giftcard),
+                            label: const Text("ödemeyi tamamla"))
                       ],
                     ),
                   ),
@@ -181,10 +182,11 @@ class _ShoppingComplateState extends State<ShoppingComplate> {
     return TextFormField(
       keyboardType: type,
       validator: (s) {
-        if (s!.length <= 2)
-          return "hata";
-        else
+        if (s!.length <= 2) {
+          return "Lütfen giriş yapınız";
+        } else {
           return null;
+        }
       },
       decoration: InputDecoration(
         border: OutlineInputBorder(

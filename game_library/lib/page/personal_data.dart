@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:game_library/constants/constants.dart';
 
 class PersonalData extends StatefulWidget {
-  PersonalData({Key? key}) : super(key: key);
+  const PersonalData({Key? key}) : super(key: key);
 
   @override
   State<PersonalData> createState() => _PersonalData();
@@ -79,6 +79,8 @@ class _PersonalData extends State<PersonalData> {
                 validator: (value) {
                   if (value!.length < 6) {
                     return "En az 6 karakter giriniz";
+                  } else {
+                    return null;
                   }
                 },
                 onSaved: (value) {
@@ -145,6 +147,8 @@ class _PersonalData extends State<PersonalData> {
             validator: (value) {
               if (value!.length < 6 || !value.contains("@")) {
                 return "Geçerli bir mail adresi giriniz";
+              } else {
+                return null;
               }
             },
             onSaved: (inputValue) {
@@ -164,6 +168,8 @@ class _PersonalData extends State<PersonalData> {
             validator: (value) {
               if (value!.length < 6) {
                 return "En az 6 karakter giriniz";
+              } else {
+                return null;
               }
             },
             onSaved: (inputValue) {

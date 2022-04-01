@@ -23,7 +23,7 @@ final List<String> contentList = [
 ];
 
 class GameNews extends StatefulWidget {
-  GameNews({Key? key}) : super(key: key);
+  const GameNews({Key? key}) : super(key: key);
 
   @override
   State<GameNews> createState() => _GameNewsState();
@@ -42,39 +42,37 @@ class _GameNewsState extends State<GameNews> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Container(
-          child: Column(
-            children: [
-              Container(
-                  height: 280,
-                  child: CarouselSlider(
-                    options: CarouselOptions(
-                        aspectRatio: 2.0,
-                        enlargeCenterPage: true,
-                        scrollDirection: Axis.vertical,
-                        autoPlay: true),
-                    items: imageSliders,
-                  )),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: CardItem(
-                  head: dataSource.title,
-                  content: dataSource.content,
-                ),
+        child: Column(
+          children: [
+            SizedBox(
+                height: 280,
+                child: CarouselSlider(
+                  options: CarouselOptions(
+                      aspectRatio: 2.0,
+                      enlargeCenterPage: true,
+                      scrollDirection: Axis.vertical,
+                      autoPlay: true),
+                  items: imageSliders,
+                )),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: CardItem(
+                head: dataSource.title,
+                content: dataSource.content,
               ),
-              Container(height: 300, child: CarouselWithIndicatorDemo()),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: CardItem(
-                  head: dataSource.title1,
-                  content: dataSource.content1,
-                ),
+            ),
+            const SizedBox(height: 300, child: CarouselWithIndicatorDemo()),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: CardItem(
+                head: dataSource.title1,
+                content: dataSource.content1,
               ),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-              )
-            ],
-          ),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(12.0),
+            )
+          ],
         ),
       ),
     );
@@ -82,6 +80,7 @@ class _GameNewsState extends State<GameNews> {
 }
 
 class CarouselWithIndicatorDemo extends StatefulWidget {
+  const CarouselWithIndicatorDemo({Key? key}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return _CarouselWithIndicatorState();
@@ -118,7 +117,8 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
             child: Container(
               width: 12.0,
               height: 12.0,
-              margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+              margin:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: (Theme.of(context).brightness == Brightness.dark
@@ -135,53 +135,51 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
 
 final List<Widget> imageSliders = imgList
     .map((item) => Container(
-          child: Container(
-            margin: const EdgeInsets.all(5.0),
-            child: ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-                child: Stack(
-                  children: <Widget>[
-                    FadeInImage.assetNetwork(
-                      placeholder: "assets/images/loading.gif",
-                      image: item,
-                      fit: BoxFit.cover,
-                      width: 1000.0,
-                    ),
-                    Positioned(
-                      bottom: 0.0,
-                      left: 0.0,
-                      right: 0.0,
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.yellow,
-                                blurRadius: 1,
-                                offset: Offset(5, 10))
+          margin: const EdgeInsets.all(5.0),
+          child: ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+              child: Stack(
+                children: <Widget>[
+                  FadeInImage.assetNetwork(
+                    placeholder: "assets/images/loading.gif",
+                    image: item,
+                    fit: BoxFit.cover,
+                    width: 1000.0,
+                  ),
+                  Positioned(
+                    bottom: 0.0,
+                    left: 0.0,
+                    right: 0.0,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.yellow,
+                              blurRadius: 1,
+                              offset: Offset(5, 10))
+                        ],
+                        gradient: LinearGradient(
+                          colors: [
+                            Color.fromARGB(200, 0, 0, 0),
+                            Color.fromARGB(0, 0, 0, 0)
                           ],
-                          gradient: LinearGradient(
-                            colors: [
-                              Color.fromARGB(200, 0, 0, 0),
-                              Color.fromARGB(0, 0, 0, 0)
-                            ],
-                            begin: Alignment.bottomCenter,
-                            end: Alignment.topCenter,
-                          ),
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
                         ),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 20.0),
-                        child: Text(
-                          '${contentList[imgList.indexOf(item)]}',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 20.0),
+                      child: Text(
+                        contentList[imgList.indexOf(item)],
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                  ],
-                )),
-          ),
+                  ),
+                ],
+              )),
         ))
     .toList();

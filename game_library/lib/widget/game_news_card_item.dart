@@ -11,7 +11,9 @@ class CardItem extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(boxShadow: [
         BoxShadow(
-            color: Colors.blue.shade100, blurRadius: 20, offset: Offset(10, 10))
+            color: Colors.blue.shade100,
+            blurRadius: 20,
+            offset: const Offset(10, 10))
       ]),
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
@@ -22,21 +24,22 @@ class CardItem extends StatelessWidget {
               ListTile(
                 title: Text(
                   head,
-                  style: TextStyle(fontSize: 30),
+                  style: const TextStyle(fontSize: 30),
                 ),
                 subtitle: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     content,
-                    style: TextStyle(fontSize: 20),
+                    style: const TextStyle(fontSize: 20),
                   ),
                 ),
               ),
               ButtonBar(
                 alignment: MainAxisAlignment.end,
                 children: [
-                  IconButton(onPressed: () {}, icon: Icon(Icons.favorite)),
-                  IconButton(onPressed: () {}, icon: Icon(Icons.share))
+                  IconButton(
+                      onPressed: () {}, icon: const Icon(Icons.favorite)),
+                  IconButton(onPressed: () {}, icon: const Icon(Icons.share))
                 ],
               )
             ],

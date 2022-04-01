@@ -6,7 +6,7 @@ import 'package:game_library/widget/game_about_item.dart';
 import '../constants/constants.dart';
 
 class GameAbout extends StatelessWidget {
-  // const GameAbout({Key? key}) : super(key: key);
+  //const GameAbout({Key? key}) : super(key: key);
   late List<GameAboutModel> gameAbout;
   GameAbout() {
     gameAbout = gameAboutData();
@@ -33,12 +33,12 @@ class GameAbout extends StatelessWidget {
   List<GameAboutModel> gameAboutData() {
     List<GameAboutModel> temp = [];
     for (var i = 0; i < 9; i++) {
-      String gameIcon = GameAboutSource.GAME_NAME[i] + "_icon.png";
-      String gameImage = GameAboutSource.GAME_NAME[i] + ".png";
+      String gameIcon = GameAboutSource.gameName[i] + "_icon.png";
+      String gameImage = GameAboutSource.gameName[i] + ".png";
       GameAboutModel newGame = GameAboutModel(
-          GameAboutSource.GAME_NAME[i],
-          GameAboutSource.GAME_DATE[i],
-          GameAboutSource.GAME_CONTENT[i],
+          GameAboutSource.gameName[i],
+          GameAboutSource.gameDate[i],
+          GameAboutSource.gameContent[i],
           gameIcon,
           gameImage);
       temp.add(newGame);

@@ -3,10 +3,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:game_library/main.dart';
 import 'package:game_library/model/game_about_model.dart';
+import 'package:game_library/model/game_api_model.dart';
 import 'package:game_library/page/about.dart';
 import 'package:game_library/page/about_game.dart';
 import 'package:game_library/page/about_game_detail.dart';
 import 'package:game_library/page/game_add_library.dart';
+import 'package:game_library/page/game_api.dart';
+import 'package:game_library/page/game_api_detail.dart';
 import 'package:game_library/page/game_engine.dart';
 import 'package:game_library/page/game_library.dart';
 import 'package:game_library/page/gamenews.dart';
@@ -19,9 +22,9 @@ class RouteControl {
   static Route<dynamic>? routeGenerator(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return _gotoPage(MainPage(), settings);
+        return _gotoPage(const MainPage(), settings);
       case '/gamenews':
-        return _gotoPage(GameNews(), settings);
+        return _gotoPage(const GameNews(), settings);
       case '/gameAbout':
         return _gotoPage(GameAbout(), settings);
       case '/gameAboutDetail':
@@ -30,21 +33,26 @@ class RouteControl {
                 selectedGameAbout: settings.arguments as GameAboutModel),
             settings);
       case '/about':
-        return _gotoPage(About(), settings);
+        return _gotoPage(const About(), settings);
       case '/quastionGame':
-        return _gotoPage(QuastionGame(), settings);
+        return _gotoPage(const QuastionGame(), settings);
       case '/personalData':
-        return _gotoPage(PersonalData(), settings);
+        return _gotoPage(const PersonalData(), settings);
       case '/gameAddLibrary':
-        return _gotoPage(GameAddLibrary(), settings);
+        return _gotoPage(const GameAddLibrary(), settings);
       case '/gameLibrary':
-        return _gotoPage(GameLibrary(), settings);
+        return _gotoPage(const GameLibrary(), settings);
       case '/gameEngine':
-        return _gotoPage(GameEngine(), settings);
+        return _gotoPage(const GameEngine(), settings);
       case '/shopping':
-        return _gotoPage(Shopping(), settings);
+        return _gotoPage(const Shopping(), settings);
       case '/shoppingComplate':
-        return _gotoPage(ShoppingComplate(), settings);
+        return _gotoPage(const ShoppingComplate(), settings);
+      case '/gameApi':
+        return _gotoPage(const GameApi(), settings);
+      case '/gameApiDetail':
+        return _gotoPage(
+            GameApiDetail(game: settings.arguments as GameApiModel), settings);
     }
   }
 

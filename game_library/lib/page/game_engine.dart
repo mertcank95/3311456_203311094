@@ -24,69 +24,66 @@ class GameEngine extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        child: Container(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Row(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(30),
-                      child: FadeInImage.assetNetwork(
-                        placeholder: "assets/images/loading.gif",
-                        image: imgList[0],
-                        width: 175,
-                      ),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(30),
+                    child: FadeInImage.assetNetwork(
+                      placeholder: "assets/images/loading.gif",
+                      image: imgList[0],
+                      width: 175,
                     ),
-                    const SizedBox(width: 15),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(30),
-                      child: FadeInImage.assetNetwork(
-                        placeholder: "assets/images/loading.gif",
-                        image: imgList[1],
-                        width: 175,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              const CardItem(
-                  head: "Oyun Motoru Nedir ?",
-                  content: GameEngineData.gameEnine),
-              const SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(30),
-                  child: FadeInImage.assetNetwork(
-                    placeholder: "assets/images/loading.gif",
-                    image: imgList[2],
-                    fit: BoxFit.cover,
                   ),
+                  const SizedBox(width: 15),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(30),
+                    child: FadeInImage.assetNetwork(
+                      placeholder: "assets/images/loading.gif",
+                      image: imgList[1],
+                      width: 175,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            const CardItem(
+                head: "Oyun Motoru Nedir ?", content: GameEngineData.gameEnine),
+            const SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(30),
+                child: FadeInImage.assetNetwork(
+                  placeholder: "assets/images/loading.gif",
+                  image: imgList[2],
+                  fit: BoxFit.cover,
                 ),
               ),
-              const CardItem(
-                  head: "Unreal Engine", content: GameEngineData.unreal),
-              const SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(30),
-                  child: FadeInImage.assetNetwork(
-                    placeholder: "assets/images/loading.gif",
-                    image: imgList[3],
-                    fit: BoxFit.cover,
-                  ),
+            ),
+            const CardItem(
+                head: "Unreal Engine", content: GameEngineData.unreal),
+            const SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(30),
+                child: FadeInImage.assetNetwork(
+                  placeholder: "assets/images/loading.gif",
+                  image: imgList[3],
+                  fit: BoxFit.cover,
                 ),
               ),
-              const CardItem(head: "Unity", content: GameEngineData.gameEnine)
-            ],
-          ),
+            ),
+            const CardItem(head: "Unity", content: GameEngineData.gameEnine)
+          ],
         ),
       ),
     );

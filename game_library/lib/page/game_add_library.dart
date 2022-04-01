@@ -146,10 +146,11 @@ class _GameAddLibraryState extends State<GameAddLibrary> {
         });
       },
       validator: (s) {
-        if (s!.length <= 0)
+        if (s!.isEmpty) {
           return "Oyun Adini giriniz";
-        else
+        } else {
           return null;
+        }
       },
       decoration: InputDecoration(
           hintText: "oyun adı",
@@ -172,10 +173,11 @@ class _GameAddLibraryState extends State<GameAddLibrary> {
         });
       },
       validator: (s) {
-        if (s!.length <= 0)
-          return "Oyun içeriğini giriniz";
-        else
+        if (s!.isEmpty) {
+          return 'Oyun içeriğini giriniz';
+        } else {
           return null;
+        }
       },
       decoration: InputDecoration(
           hintText: "oyun içeriği",

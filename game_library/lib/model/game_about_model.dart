@@ -8,13 +8,13 @@ class GameAboutModel {
   GameAboutModel(this._gameName, this._gameDate, this._gameContent,
       this._gameIcon, this._gameImage);
 
-  get gameName => this._gameName;
+  get gameName => _gameName;
 
-  get gameDate => this._gameDate;
+  get gameDate => _gameDate;
 
-  get gameContent => this._gameContent;
+  get gameContent => _gameContent;
 
-  get gameIcon => this._gameIcon;
+  get gameIcon => _gameIcon;
 
-  get gameImage => this._gameImage;
+  get gameImage => _gameImage;
 }

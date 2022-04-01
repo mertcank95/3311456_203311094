@@ -3,9 +3,4 @@ class GameShopModel {
   final double money;
 
   GameShopModel(this.name, this.money);
-  @override
-  String toString() {
-    // TODO: implement toString
-    return this.name + " " + this.money.toString();
-  }
 }

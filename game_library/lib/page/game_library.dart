@@ -27,30 +27,26 @@ class _GameLibraryState extends State<GameLibrary> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Container(
-                    child: Text(
+                child: Text(
                   "Eklediğiniz oyunlar",
                   style: ConstantsStyles.newsTitle,
-                )),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Container(
-                    child: Text(
+                child: Text(
                   gameCount.toString(),
                   style: ConstantsStyles.newsTitle,
-                )),
+                ),
               )
             ],
           ),
-          Expanded(child: Container(
-            child: GameList(onDismis: (index) {
-              DataControl.allGame.removeAt(index);
-              setState(() {
-                gameCount = DataControl.allGame.length;
-              });
-            }),
-          ))
+          Expanded(child: GameList(onDismis: (index) {
+            DataControl.allGame.removeAt(index);
+            setState(() {
+              gameCount = DataControl.allGame.length;
+            });
+          }))
         ],
       ),
     );

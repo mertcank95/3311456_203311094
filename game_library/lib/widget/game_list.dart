@@ -17,7 +17,7 @@ class _GameListState extends State<GameList> {
   Widget build(BuildContext context) {
     List<GameModel> allGameList = DataControl.allGame;
 
-    return allGameList.length > 0
+    return allGameList.isNotEmpty
         ? ListView.builder(
             itemCount: allGameList.length,
             itemBuilder: (BuildContext context, int index) {
@@ -34,9 +34,8 @@ class _GameListState extends State<GameList> {
               );
             },
           )
-        : Container(
-            child: Center(
-                child: Column(
+        : Center(
+            child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
@@ -50,7 +49,7 @@ class _GameListState extends State<GameList> {
                   icon: const Icon(Icons.add),
                   label: const Text("Oyun Ekle"))
             ],
-          )));
+          ));
   }
 
   Card newCard(List<GameModel> allGameList, int index) {
