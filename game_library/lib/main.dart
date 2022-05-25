@@ -1,8 +1,26 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:game_library/constants/constants.dart';
-import 'package:game_library/controller/route_controller.dart';
 
-void main() {
+import 'package:game_library/controller/route_controller.dart';
+import 'package:game_library/firebase_options.dart';
+import 'package:game_library/model/game_shop_model.dart';
+import 'package:game_library/widget/login_widget.dart';
+import 'package:game_library/widget/sign_in.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
+Future<void> setupHive() async {
+  await Hive.initFlutter();
+  Hive.registerAdapter(GameShopModelAdapter());
+  await Hive.openBox<GameShopModel>("game");
+}
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await setupHive();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MainApp());
 }
 
@@ -13,7 +31,10 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primaryColor: const Color.fromARGB(229, 228, 235, 230)),
+
+      theme: ThemeData(
+          primaryColor: const Color.fromARGB(229, 228, 235, 230),
+          appBarTheme: const AppBarTheme(color: ConstantsStyles.appBarColor)),
       //home: MainPage(),
       onGenerateRoute: RouteControl.routeGenerator,
     );
@@ -25,75 +46,59 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverAppBar(
-            backgroundColor: ConstantsStyles.appBarColor,
-            expandedHeight: 250,
-            pinned: true,
-            title: Text(
-              "Game Library",
-              style: ConstantsStyles.titleStyle,
-            ),
-            flexibleSpace: FlexibleSpaceBar(
-                centerTitle: true,
-                background: Image.asset(
-                  "assets/images/mainimg.png",
-                  fit: BoxFit.cover,
-                  color: Colors.white.withOpacity(0.8),
-                  colorBlendMode: BlendMode.modulate,
-                )),
-          ),
-          SliverGrid(
-              delegate: SliverChildListDelegate([
-                buttons("Games", Icons.gamepad, context, "/gameApi"),
-                buttons(
-                    "Oyun Satış ", Icons.shopping_bag, context, "/shopping"),
-                buttons("Oyunlar Hakkında bilgiler", Icons.auto_stories,
-                    context, "/gameAbout"),
-                buttons("Oyun Ekle", Icons.add_box, context, "/gameAddLibrary"),
-                buttons("Oyun Kütüphanem", Icons.library_books, context,
-                    "/gameLibrary"),
-                buttons("Kişisel Verileriniz", Icons.folder_shared_outlined,
-                    context, "/personalData"),
-                buttons(
-                    "Oyun Motorları", Icons.settings, context, "/gameEngine"),
-                buttons("Hakkımızda ve İletişim", Icons.comment_bank_outlined,
-                    context, "/about"),
-                buttons("Ankete Katılın", Icons.how_to_reg_outlined, context,
-                    "/quastionGame"),
-                buttons("Oyun Haberleri ", Icons.new_releases_outlined, context,
-                    "/gamenews"),
-              ]),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2))
-        ],
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0.0,
+            bottom: TabBar(
+                labelColor: Colors.black,
+                unselectedLabelColor: Colors.blue,
+                indicatorSize: TabBarIndicatorSize.label,
+                indicator: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    color: Colors.blue[100]),
+                tabs: [
+                  Container(
+                    decoration: BoxDecoration(
+                        //color: Colors.blue[100],
+                        borderRadius: BorderRadius.circular(30)),
+                    child: Tab(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Text("Login"),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Icon(Icons.login)
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        //color: Colors.blue[100],
+                        borderRadius: BorderRadius.circular(30)),
+                    child: Tab(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Text("Sign In"),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Icon(Icons.edit)
+                        ],
+                      ),
+                    ),
+                  ),
+                ])),
+        body:const TabBarView(
+          children: [LoginPage(), SignIn()],
+        ),
       ),
     );
   }
-}
-
-Widget buttons(
-    String data, IconData icon, BuildContext context, String targetPage) {
-  return Padding(
-    padding: const EdgeInsets.all(12.0),
-    child: ElevatedButton.icon(
-        style: ElevatedButton.styleFrom(
-            primary: Colors.blue.shade800,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-                side: const BorderSide(color: Colors.white, width: 5)),
-            shadowColor: Colors.blueGrey,
-            elevation: 50,
-            textStyle: ConstantsStyles.textStyle),
-        onPressed: () {
-          Navigator.of(context).pushNamed(targetPage);
-        },
-        icon: Icon(
-          icon,
-          size: 47,
-        ),
-        label: Text(data)),
-  );
 }

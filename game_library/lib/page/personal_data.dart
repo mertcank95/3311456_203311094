@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:game_library/constants/constants.dart';
+import 'package:game_library/model/personal_model.dart';
+import 'package:game_library/services/file_storage.dart';
 
 class PersonalData extends StatefulWidget {
   const PersonalData({Key? key}) : super(key: key);
@@ -21,11 +23,16 @@ class _PersonalData extends State<PersonalData> {
       checkBoxState2 = false,
       checkBoxState4 = false;
 
+  TextEditingController nameText = TextEditingController();
+  TextEditingController mailText = TextEditingController();
+
   bool error = false;
+  final FileStorageServices _fileStorageServices = FileStorageServices();
 
   @override
   void initState() {
     super.initState();
+    _dataRead();
   }
 
   @override
@@ -34,7 +41,6 @@ class _PersonalData extends State<PersonalData> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ConstantsStyles.appBarColor,
         title: Text(
           "Verileriniz",
           style: ConstantsStyles.titleStyle,
@@ -73,6 +79,7 @@ class _PersonalData extends State<PersonalData> {
           content: Column(
             children: [
               TextFormField(
+                controller: nameText,
                 key: key0,
                 decoration: const InputDecoration(
                     hintText: "Kullanıcı adı", border: OutlineInputBorder()),
@@ -140,6 +147,7 @@ class _PersonalData extends State<PersonalData> {
           state: _statestatus(1),
           isActive: true,
           content: TextFormField(
+            controller: mailText,
             keyboardType: TextInputType.emailAddress,
             key: key1,
             decoration: const InputDecoration(
@@ -219,6 +227,14 @@ class _PersonalData extends State<PersonalData> {
           key2.currentState!.save();
           error = false;
           _activeStep = 2;
+          List<String> newList = [];
+          for (var i = 0; i < 4; i++) {
+            if (selectTypeGame[i] != "null") {
+              newList.add(selectTypeGame[i]);
+            }
+          }
+          PersonalModel personel = PersonalModel(name!, mail!, newList);
+          _fileStorageServices.dataInsert(personel);
 
           setState(() {
             _showMyDialog();
@@ -240,6 +256,7 @@ class _PersonalData extends State<PersonalData> {
     }
     return showDialog<void>(
       context: context,
+
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
@@ -264,5 +281,14 @@ class _PersonalData extends State<PersonalData> {
         );
       },
     );
+  }
+
+  _dataRead() async {
+    var data = await _fileStorageServices.dataRead();
+    name = data.name;
+    mail = data.mail;
+    mailText.text = data.mail;
+    nameText.text = data.name;
+    setState(() {});
   }
 }

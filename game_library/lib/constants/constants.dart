@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ConstantsStyles {
-  static final Color appBarColor = Color.fromARGB(255, 0, 51, 153);
+  static const Color appBarColor = Color.fromARGB(255, 0, 51, 153);
 
   static final TextStyle titleStyle = GoogleFonts.sansitaSwashed(
       fontSize: 30, fontWeight: FontWeight.w900, color: Colors.green.shade100);

@@ -16,11 +16,10 @@ class _GameLibraryState extends State<GameLibrary> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: ConstantsStyles.appBarColor,
           title: Text(
-            "Oyunlarınız",
-            style: ConstantsStyles.titleStyle,
-          )),
+        "Oyunlarınız",
+        style: ConstantsStyles.titleStyle,
+      )),
       body: Column(
         children: [
           Row(

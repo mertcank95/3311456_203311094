@@ -17,7 +17,6 @@ class GameEngine extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ConstantsStyles.appBarColor,
         title: Text(
           "Game Engine",
           style: ConstantsStyles.titleStyle,

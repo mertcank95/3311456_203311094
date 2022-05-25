@@ -41,6 +41,18 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   dio: ^4.0.5
+  flutter_sequence_animation: "^4.0.0-nullsafety"
+  path_provider: ^2.0.9
+  hive: ^2.1.0
+  hive_flutter: ^1.1.0
+  hive_generator: ^1.1.2
+  build_runner: ^2.1.10
+  uuid: ^3.0.6
+  syncfusion_flutter_charts: ^20.1.55
+  firebase_core: ^1.15.0
+  firebase_auth: ^3.3.16
+  cloud_firestore: ^3.1.13
+  firebase_storage: ^10.2.16
 
 dev_dependencies:
   flutter_test:

@@ -31,7 +31,6 @@ class _GameApiState extends State<GameApi> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ConstantsStyles.appBarColor,
         title: Text(
           "Games",
           style: ConstantsStyles.titleStyle,
@@ -52,7 +51,7 @@ class _GameApiState extends State<GameApi> {
                       BoxShadow(
                           color: Colors.blue.shade100,
                           blurRadius: 20,
-                          offset:const Offset(10, 10))
+                          offset: const Offset(10, 10))
                     ]),
                     child: GestureDetector(
                       onTap: () {

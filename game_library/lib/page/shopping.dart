@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:game_library/constants/constants.dart';
-import 'package:game_library/controller/data_controller.dart';
 import 'package:game_library/datasource/game_about_source.dart';
 import 'package:game_library/model/game_shop_model.dart';
+import 'package:game_library/services/hive_storage.dart';
+
+double _totalMoney = 0;
 
 class Shopping extends StatefulWidget {
   const Shopping({Key? key}) : super(key: key);
@@ -12,7 +14,17 @@ class Shopping extends StatefulWidget {
 }
 
 class _ShoppingState extends State<Shopping> {
-  double totalMoney = DataControl.gamesMoney();
+  late HiveStorage _hive;
+  late List<GameShopModel> _allGame;
+
+  @override
+  void initState() {
+    super.initState();
+    _hive = HiveStorage();
+    _allGame = [];
+    _getAllGames();
+    _totalMoney = _hive.sumMoney();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +36,10 @@ class _ShoppingState extends State<Shopping> {
         ),
         backgroundColor: ConstantsStyles.appBarColor,
         actions: [
-          Text("Toplam fiyat : ${totalMoney.toStringAsFixed(2)}  "),
-          PopupWidget(),
-          Text(" " + DataControl.shopGame.length.toString())
+          PopupWidget(
+            gameList: _allGame,
+            hive: _hive,
+          ),
         ],
       ),
       body: GridView.builder(
@@ -41,7 +54,7 @@ class _ShoppingState extends State<Shopping> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          if (DataControl.shopGame.isNotEmpty) {
+          if (_allGame.isNotEmpty) {
             Navigator.pop(context);
             Navigator.pushNamed(context, "/shoppingComplate");
           } else {
@@ -66,20 +79,6 @@ class _ShoppingState extends State<Shopping> {
             width: 75,
             height: 75,
           ),
-          /* ListTile(
-            title: Text(
-              GameAboutSource.GAME_NAME[index],
-              style: TextStyle(fontSize: 20),
-            ),
-            subtitle: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                GameAboutSource.GAME_MONEY[index].toString() + " tl",
-                style: TextStyle(fontSize: 20),
-              ),
-            ),
-          ),*/
-
           Text(
             GameAboutSource.gameName[index],
             style: const TextStyle(
@@ -91,45 +90,37 @@ class _ShoppingState extends State<Shopping> {
           ButtonBar(
             alignment: MainAxisAlignment.end,
             children: [
-              // Text(DataControl.count[index].toString()),
               IconButton(
-                  onPressed: () {
+                  onPressed: () async {
                     setState(() {});
-                    //DataControl.count[index]++;
 
-                    GameShopModel newProduct = GameShopModel(
-                        GameAboutSource.gameName[index],
-                        GameAboutSource.gameMoney[index]);
-                    DataControl.addGameShopList(newProduct);
-                    totalMoney = DataControl.gamesMoney();
+                    var newGame = GameShopModel.create(
+                        name: GameAboutSource.gameName[index],
+                        money: GameAboutSource.gameMoney[index]);
+                    _allGame.insert(0, newGame);
+                    await _hive.addGame(game: newGame);
+                    _totalMoney = _hive.sumMoney();
                   },
                   icon: const Icon(Icons.add_box)),
-              IconButton(
-                  onPressed: () {
-                    setState(() {});
-                    // if (DataControl.count[index] != 0)
-                    //DataControl.count[index]--;
-                    /* else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text("Ürün Zaten yok")));
-                    }*/
-                    DataControl.removeGameShopList(
-                        GameAboutSource.gameName[index]);
-                    totalMoney = DataControl.gamesMoney();
-                  },
-                  icon: const Icon(Icons.delete)),
             ],
           )
         ],
       ),
     );
   }
+
+  void _getAllGames() async {
+    _allGame = await _hive.getAllGame();
+    setState(() {});
+  }
 }
 
 class PopupWidget extends StatefulWidget {
-  const PopupWidget({
-    Key? key,
-  }) : super(key: key);
+  final HiveStorage hive;
+  List<GameShopModel> gameList;
+
+  PopupWidget({Key? key, required this.hive, required this.gameList})
+      : super(key: key);
 
   @override
   State<PopupWidget> createState() => _PopupWidgetState();
@@ -137,30 +128,53 @@ class PopupWidget extends StatefulWidget {
 
 class _PopupWidgetState extends State<PopupWidget> {
   @override
+  void initState() {
+  
+    super.initState();
+    _totalMoney = widget.hive.sumMoney();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return DataControl.shopGame.isNotEmpty
-        ? PopupMenuButton(
-            color: Colors.blue.shade600,
-            icon: const Icon(Icons.add_shopping_cart),
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(15.0))),
-            itemBuilder: (context) {
-              return DataControl.shopGame
-                  .map((e) => PopupMenuItem(
-                      textStyle:
-                          const TextStyle(decoration: TextDecoration.underline),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Text(e.name),
-                              Text(" " + e.money.toString()),
-                            ],
-                          ),
-                        ],
-                      )))
-                  .toList();
-            })
+    return widget.gameList.isNotEmpty
+        ? Row(
+            children: [
+              Text("Fiyat : " + _totalMoney.toString()),
+              PopupMenuButton(
+                  color: Colors.blue.shade600,
+                  icon: const Icon(Icons.add_shopping_cart),
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                  itemBuilder: (context) {
+                    return widget.gameList
+                        .map((e) => PopupMenuItem(
+                            textStyle: const TextStyle(
+                                decoration: TextDecoration.underline),
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(e.name),
+                                    Text(" " + e.money.toString()),
+                                    IconButton(
+                                        onPressed: () {
+                                          widget.gameList.remove(e);
+
+                                          widget.hive.deleteGame(game: e);
+                                          _totalMoney = widget.hive.sumMoney();
+                                          setState(() {});
+                                          Navigator.pop(context);
+                                        },
+                                        icon:const Icon(Icons.delete))
+                                  ],
+                                ),
+                              ],
+                            )))
+                        .toList();
+                  }),
+              Text(widget.gameList.length.toString())
+            ],
+          )
         : const Text(" Ürün yok  ");
   }
 }

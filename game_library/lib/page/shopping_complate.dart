@@ -1,6 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:game_library/constants/constants.dart';
-import 'package:game_library/controller/data_controller.dart';
+import 'package:game_library/model/shop_fire_model.dart';
+import 'package:game_library/services/fire_storage.dart';
+
+import '../model/game_shop_model.dart';
+import '../services/hive_storage.dart';
 
 class ShoppingComplate extends StatefulWidget {
   const ShoppingComplate({Key? key}) : super(key: key);
@@ -11,6 +16,21 @@ class ShoppingComplate extends StatefulWidget {
 
 class _ShoppingComplateState extends State<ShoppingComplate> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  late HiveStorage _hive;
+  late List<GameShopModel> _allGame;
+  late FireStorageServices services;
+  late FirebaseAuth _auth;
+
+  @override
+  void initState() {
+    super.initState();
+    _hive = HiveStorage();
+    _allGame = [];
+    _getAllGames();
+    services = FireStorageServices();
+    _auth = FirebaseAuth.instance;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +40,6 @@ class _ShoppingComplateState extends State<ShoppingComplate> {
           "Kart işlemleri",
           style: ConstantsStyles.titleStyle,
         ),
-        backgroundColor: ConstantsStyles.appBarColor,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -29,7 +48,7 @@ class _ShoppingComplateState extends State<ShoppingComplate> {
               alignment: Alignment.center,
               height: 150,
               child: ListView.builder(
-                itemCount: DataControl.shopGame.length,
+                itemCount: _allGame.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Row(
                     children: [
@@ -37,9 +56,9 @@ class _ShoppingComplateState extends State<ShoppingComplate> {
                         child: Container(
                           decoration: BoxDecoration(border: Border.all()),
                           child: Text(
-                            DataControl.shopGame[index].name +
+                            _allGame[index].name +
                                 "  " +
-                                DataControl.shopGame[index].money.toString(),
+                                _allGame[index].money.toString(),
                             style: const TextStyle(fontSize: 20),
                             textAlign: TextAlign.center,
                           ),
@@ -52,8 +71,11 @@ class _ShoppingComplateState extends State<ShoppingComplate> {
                               style: ElevatedButton.styleFrom(),
                               onPressed: () {
                                 setState(() {});
-                                DataControl.removeGameShopList(
-                                    DataControl.shopGame[index].name);
+                                _hive.deleteGame(game: _allGame[index]);
+                                _allGame.remove(_allGame[index]);
+                                if (_allGame.isEmpty) {
+                                  Navigator.pop(context);
+                                }
                               },
                               child: const Icon(
                                 Icons.delete_forever,
@@ -67,7 +89,7 @@ class _ShoppingComplateState extends State<ShoppingComplate> {
               ),
             ),
             Text(
-              "Toplam : " + DataControl.gamesMoney().toStringAsFixed(2) + " TL",
+              "Toplam : " + _hive.sumMoney().toStringAsFixed(2) + " TL",
               style: ConstantsStyles.newsTitle,
             ),
             Padding(
@@ -153,8 +175,23 @@ class _ShoppingComplateState extends State<ShoppingComplate> {
                         ElevatedButton.icon(
                             onPressed: () {
                               if (formKey.currentState!.validate()) {
-                                DataControl.gameShopListRemove();
-                                //DataControl.resetList();
+                                _hive.clearHive();
+                                List<String> gameNames = [];
+                                Map<String, String> gameNameMoney = {};
+                                for (var element in _allGame) {
+                                  gameNames.add(element.name);
+                                  gameNameMoney[element.name] =
+                                      element.money.toString();
+                                }
+                                try {
+                                  ShopFireModel newShop = ShopFireModel(
+                                      games: gameNameMoney,
+                                      totalMoney: _hive.sumMoney().toString(),
+                                      userId: _auth.currentUser!.uid);
+                                  services.addShopList(newShop);
+                                } catch (e) {
+                                  debugPrint(e.toString());
+                                }
                                 Navigator.pop(context);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
@@ -163,7 +200,7 @@ class _ShoppingComplateState extends State<ShoppingComplate> {
                               }
                             },
                             icon: const Icon(Icons.card_giftcard),
-                            label: const Text("ödemeyi tamamla"))
+                            label: const Text("ödemeyi tamamla")),
                       ],
                     ),
                   ),
@@ -198,5 +235,10 @@ class _ShoppingComplateState extends State<ShoppingComplate> {
         prefixIcon: textIcon,
       ),
     );
+  }
+
+  void _getAllGames() async {
+    _allGame = await _hive.getAllGame();
+    setState(() {});
   }
 }

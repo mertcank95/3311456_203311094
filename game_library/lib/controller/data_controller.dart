@@ -53,10 +53,4 @@ class DataControl {
   }
 
   static List<int> count = List.filled(GameAboutSource.gameName.length, 0);
-
-  static resetList() {
-    for (int item in DataControl.count) {
-      item = 0;
-    }
-  }
 }

@@ -8,7 +8,7 @@ import '../constants/constants.dart';
 class GameAbout extends StatelessWidget {
   //const GameAbout({Key? key}) : super(key: key);
   late List<GameAboutModel> gameAbout;
-  GameAbout() {
+  GameAbout({Key? key}) : super(key: key) {
     gameAbout = gameAboutData();
   }
 
