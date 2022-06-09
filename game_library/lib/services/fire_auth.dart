@@ -12,7 +12,7 @@ class AuthServices {
     return await _auth.signOut();
   }
 
-  createPerson(UserModel newUser) async {
+  Future<bool> createPerson(UserModel newUser) async {
     try {
       var user = await _auth.createUserWithEmailAndPassword(
           email: newUser.gmail!, password: newUser.password!);
@@ -22,8 +22,10 @@ class AuthServices {
         "userSurName": newUser.surName,
         "email": newUser.gmail
       });
+      return true;
     } catch (e) {
       debugPrint(e.toString());
     }
+    return false;
   }
 }

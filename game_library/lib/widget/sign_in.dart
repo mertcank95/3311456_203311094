@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
 
 import 'package:flutter/material.dart';
 import 'package:game_library/model/user_model.dart';
@@ -16,7 +16,6 @@ class _SignInState extends State<SignIn> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   UserModel newUser = UserModel.empty();
   final AuthServices _authServices = AuthServices();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   bool _hide = false;
   @override
@@ -125,12 +124,25 @@ class _SignInState extends State<SignIn> {
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
                               formKey.currentState!.save();
-
-                              _authServices.createPerson(newUser);
-                              if (_auth.currentUser != null) {
-                                Navigator.pushNamed(context, "/home");
-                              } else {
-                                debugPrint("kullanıcı yok");
+                              try {
+                                _authServices
+                                    .createPerson(newUser)
+                                    .then((value) {
+                                  if (value) {
+                                    Navigator.pushNamed(context, "/home");
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                            content: Text("kayıt başarılı")));
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                            content: Text(
+                                                "Hattalı işlem veya aynı isim de kullanıcı bulunmaktadır")));
+                                  }
+                                });
+                              } catch (e) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text(e.toString())));
                               }
                             }
                           },

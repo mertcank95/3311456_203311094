@@ -60,4 +60,9 @@ class GameApiModel {
             "${releaseDate.year.toString().padLeft(4, '0')}-${releaseDate.month.toString().padLeft(2, '0')}-${releaseDate.day.toString().padLeft(2, '0')}",
         "freetogame_profile_url": freetogameProfileUrl,
       };
+
+
+
+
+      
 }

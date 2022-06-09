@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:game_library/constants/constants.dart';
-import 'package:game_library/controller/data_controller.dart';
-import 'package:game_library/model/game_model.dart';
+
+import '../services/fire_storage.dart';
 
 class GameList extends StatefulWidget {
   final Function onDismis;
@@ -13,64 +15,62 @@ class GameList extends StatefulWidget {
 }
 
 class _GameListState extends State<GameList> {
+  late FireStorageServices _services;
+  late FirebaseAuth _auth;
+
+  @override
+  void initState() {
+    super.initState();
+    _services = FireStorageServices();
+    _auth = FirebaseAuth.instance;
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<GameModel> allGameList = DataControl.allGame;
-
-    return allGameList.isNotEmpty
-        ? ListView.builder(
-            itemCount: allGameList.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Dismissible(
-                onDismissed: (direction) {
-                  widget.onDismis(index);
-                },
-                key: UniqueKey(),
-                direction: DismissDirection.startToEnd,
-                child: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: newCard(allGameList, index),
-                ),
-              );
-            },
-          )
-        : Center(
-            child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Lütfen Önce Oyun Ekleyiniz",
-                style: ConstantsStyles.textStyle,
-              ),
-              ElevatedButton.icon(
-                  onPressed: () {
-                    Navigator.popAndPushNamed(context, "/gameAddLibrary");
-                  },
-                  icon: const Icon(Icons.add),
-                  label: const Text("Oyun Ekle"))
-            ],
-          ));
+    return StreamBuilder(
+      stream: _services.getCurrentUserGame(_auth.currentUser!.uid),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        return snapshot.hasData
+            ? ListView.builder(
+                itemCount: snapshot.data!.size,
+                itemBuilder: (BuildContext context, int index) {
+                  var myGame = snapshot.data!.docs[index];
+                  return Dismissible(
+                    onDismissed: (direction) {
+                      widget.onDismis(myGame);
+                    },
+                    key: UniqueKey(),
+                    direction: DismissDirection.startToEnd,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: newCard(myGame, index),
+                    ),
+                  );
+                })
+            : const CircularProgressIndicator();
+      },
+    );
   }
+}
 
-  Card newCard(List<GameModel> allGameList, int index) {
-    return Card(
-        shadowColor: Colors.blue,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(40),
-            side: BorderSide(color: Colors.blue.shade100, width: 2)),
-        child: ListTile(
-            trailing: Text(allGameList[index].gameType),
-            leading: CircleAvatar(
-                radius: 40,
-                backgroundColor: Colors.white,
-                child: Text(
-                  allGameList[index].gameDate,
-                  textAlign: TextAlign.center,
-                )),
-            subtitle: Text(allGameList[index].gameContent),
-            title: Text(
-              allGameList[index].gameName,
-              style: ConstantsStyles.newsTitle,
-            )));
-  }
+Card newCard(QueryDocumentSnapshot<dynamic> game, int index) {
+  return Card(
+      shadowColor: Colors.blue,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(40),
+          side: BorderSide(color: Colors.blue.shade100, width: 2)),
+      child: ListTile(
+          trailing: Text(game['gameName']),
+          leading: CircleAvatar(
+              radius: 40,
+              backgroundColor: Colors.white,
+              child: Text(
+                game['gameDate'],
+                textAlign: TextAlign.center,
+              )),
+          subtitle: Text(game['gameContent']),
+          title: Text(
+            game['gameType'],
+            style: ConstantsStyles.newsTitle,
+          )));
 }

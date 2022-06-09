@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:game_library/constants/constants.dart';
 import 'package:game_library/controller/data_controller.dart';
 import 'package:game_library/model/game_model.dart';
+import 'package:game_library/services/fire_storage.dart';
 
 import '../widget/game_type_dropdown.dart';
 
@@ -15,8 +17,16 @@ class GameAddLibrary extends StatefulWidget {
 class _GameAddLibraryState extends State<GameAddLibrary> {
   String gameName = "";
   String gameContent = "";
-  String gameType = "";
+  String gameType = "Aksiyon";
   String dateTime = "0/0/0";
+  late FireStorageServices fireServices;
+  late FirebaseAuth _auth;
+  @override
+  void initState() {
+    super.initState();
+    fireServices = FireStorageServices();
+    _auth = FirebaseAuth.instance;
+  }
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
@@ -106,17 +116,22 @@ class _GameAddLibraryState extends State<GameAddLibrary> {
                             style: ConstantsStyles.textStyle,
                           ),
                           onPressed: () {
-                            if (formKey.currentState!.validate()) {
-                              formKey.currentState!.save();
-                              GameModel newGame = GameModel(
-                                  gameName, gameContent, gameType, dateTime);
-                              DataControl.gameAdd(newGame);
-                              Navigator.pop(context);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content:
-                                          Text("Oyun başarı ile eklendi")));
-                            } else {
+                            try {
+                              if (formKey.currentState!.validate()) {
+                                formKey.currentState!.save();
+                                GameModel newGame = GameModel(
+                                    userId: _auth.currentUser!.uid,
+                                    gameContent: gameContent,
+                                    gameName: gameName,
+                                    gameType: gameType,
+                                    gameDate: dateTime);
+                                fireServices
+                                    .addGame(newGame)
+                                    .then((value) => Navigator.pop(context));
+
+                                DataControl.gameAdd(newGame);
+                              } else {}
+                            } catch (e) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                       content: Text(

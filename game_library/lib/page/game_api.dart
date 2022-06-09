@@ -19,6 +19,7 @@ class _GameApiState extends State<GameApi> {
         var gameList = (response.data as List)
             .map((e) => GameApiModel.fromMap(e))
             .toList();
+
         return gameList;
       }
       return _gameList;
@@ -31,6 +32,7 @@ class _GameApiState extends State<GameApi> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [IconButton(onPressed: () {}, icon:const Icon(Icons.search))],
         title: Text(
           "Games",
           style: ConstantsStyles.titleStyle,
@@ -42,10 +44,12 @@ class _GameApiState extends State<GameApi> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               var gameApiList = snapshot.data!;
+
               return ListView.builder(
                 itemCount: gameApiList.length,
                 itemBuilder: (BuildContext context, int index) {
                   var game = gameApiList[index];
+
                   return Container(
                     decoration: BoxDecoration(boxShadow: [
                       BoxShadow(

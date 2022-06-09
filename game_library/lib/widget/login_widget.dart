@@ -152,7 +152,8 @@ class _LoginPageState extends State<LoginPage>
                                 email: gmail!, password: password!);
                           }
                         } catch (e) {
-                          debugPrint(e.toString());
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(e.toString())));
                         }
                         if (_auth.currentUser != null) {
                           Navigator.pushNamed(context, "/home");

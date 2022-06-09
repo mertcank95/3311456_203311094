@@ -115,6 +115,7 @@ class _ShoppingState extends State<Shopping> {
   }
 }
 
+// ignore: must_be_immutable
 class PopupWidget extends StatefulWidget {
   final HiveStorage hive;
   List<GameShopModel> gameList;
@@ -129,7 +130,6 @@ class PopupWidget extends StatefulWidget {
 class _PopupWidgetState extends State<PopupWidget> {
   @override
   void initState() {
-  
     super.initState();
     _totalMoney = widget.hive.sumMoney();
   }
@@ -165,7 +165,7 @@ class _PopupWidgetState extends State<PopupWidget> {
                                           setState(() {});
                                           Navigator.pop(context);
                                         },
-                                        icon:const Icon(Icons.delete))
+                                        icon: const Icon(Icons.delete))
                                   ],
                                 ),
                               ],

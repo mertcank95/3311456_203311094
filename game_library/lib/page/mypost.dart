@@ -47,9 +47,9 @@ class _MyGamePost extends State<MyGamePost> {
                             leading: InkWell(
                                 onTap: () {
                                   _postAddServices.removePost(myPost.id);
-                                  print(myPost.id);
+                                  // print(myPost.id);
                                 },
-                                child: Icon(Icons.delete)),
+                                child: const Icon(Icons.delete)),
                           ),
                         ),
                       );

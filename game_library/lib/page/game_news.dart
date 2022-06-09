@@ -129,6 +129,7 @@ class _GameNewsState extends State<GameNews>
   }
 }
 
+// ignore: camel_case_types
 class newsCard extends StatelessWidget {
   const newsCard({
     Key? key,
